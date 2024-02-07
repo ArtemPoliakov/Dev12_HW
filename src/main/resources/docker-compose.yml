@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    container_name: artem-bank-postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: ArtemPoliakov
+      POSTGRES_PASSWORD: strong-password
+      POSTGRES_DB: myDb
+    volumes:
+      - hw_13_postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: apoliakov50@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: strong_pg_password
+    volumes:
+      - hw_13_pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  hw_13_postgres_data:
+  hw_13_pgadmin_data:

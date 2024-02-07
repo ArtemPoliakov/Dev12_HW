@@ -3,7 +3,7 @@ package com.homework.crud_services;
 import com.homework.exceptions.ClientForCreateShouldNotContainIdException;
 import com.homework.hibernate_entities.Client;
 import com.homework.utils.DbConfigUtil;
-import org.flywaydb.core.Flyway;
+import com.homework.utils.FlywayUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,12 +18,7 @@ class ClientCrudServiceTest {
     private ClientCrudService clientCrudService = new ClientCrudService();
     @BeforeAll
     static void setUp(){
-        Flyway flyway = Flyway
-                .configure()
-                .dataSource(DbConfigUtil.getDbUrl(), DbConfigUtil.getDbUser(), DbConfigUtil.getDbPassword())
-                .baselineOnMigrate(true)
-                .load();
-        flyway.migrate();
+        FlywayUtil.startFlyway(DbConfigUtil.PropertyType.TEST_MODE);
     }
     @ParameterizedTest
     @MethodSource(value = "supplyClients")

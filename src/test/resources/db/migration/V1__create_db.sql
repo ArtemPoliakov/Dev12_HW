@@ -1,20 +1,20 @@
 CREATE TABLE IF NOT EXISTS client (
 
-id BIGSERIAL PRIMARY KEY,
-name VARCHAR(200) NOT NULL CONSTRAINT check_client_name_length CHECK (LENGTH(client.name) BETWEEN 3 and 200)
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(200) NOT NULL CONSTRAINT check_client_name_length CHECK length(client.name) BETWEEN 3 and 200
 
 );
 
 CREATE TABLE IF NOT EXISTS planet (
 
-id VARCHAR(255) PRIMARY KEY CONSTRAINT planet_id_format CHECK (id ~ '^[A-Z0-9]+$'),
-name VARCHAR(500) NOT NULL CONSTRAINT check_planet_name_length CHECK (LENGTH(planet.name) BETWEEN 1 AND 500)
+id VARCHAR(255) PRIMARY KEY CONSTRAINT planet_id_format CHECK (REGEXP_LIKE (planet.id, '^[A-Z0-9]+$')),
+name VARCHAR(500) NOT NULL CONSTRAINT check_planet_name_length CHECK length(planet.name) BETWEEN 1 AND 500
 
 );
 
 CREATE TABLE IF NOT EXISTS ticket(
 
-id BIGSERIAL PRIMARY KEY,
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
 created_at TIMESTAMP,
 client_id BIGINT NOT NULL,
 from_planet_id VARCHAR(255),

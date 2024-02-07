@@ -2,6 +2,7 @@ package com.homework.crud_services;
 import com.homework.exceptions.IllegalfieldException;
 import com.homework.hibernate_entities.Planet;
 import com.homework.utils.DbConfigUtil;
+import com.homework.utils.FlywayUtil;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,12 +17,7 @@ class PlanetCrudServiceTest {
     private PlanetCrudService planetCrudService = new PlanetCrudService();
     @BeforeAll
     static void setUp(){
-        Flyway flyway = Flyway
-                .configure()
-                .dataSource(DbConfigUtil.getDbUrl(), DbConfigUtil.getDbUser(), DbConfigUtil.getDbPassword())
-                .baselineOnMigrate(true)
-                .load();
-        flyway.migrate();
+        FlywayUtil.startFlyway(DbConfigUtil.PropertyType.TEST_MODE);
     }
     @ParameterizedTest
     @MethodSource(value = "supplyPlanets")

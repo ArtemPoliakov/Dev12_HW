@@ -4,22 +4,39 @@ import com.homework.crud_services.ClientCrudService;
 import com.homework.exceptions.ClientForCreateShouldNotContainIdException;
 import com.homework.hibernate_entities.Client;
 import com.homework.utils.DbConfigUtil;
+import com.homework.utils.FlywayUtil;
 import com.homework.utils.HibernateUtil;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Root;
-import org.flywaydb.core.Flyway;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class Main {
     private static final Long ID_FOR_TEST = 7L;
     public static void main(String[] args) {
+        FlywayUtil.startFlyway(DbConfigUtil.PropertyType.REAL_MODE);
 
+//        try( Connection connection = DriverManager.getConnection(
+//                DbConfigUtil.getDbUrl(DbConfigUtil.PropertyType.REAL_MODE),
+//                DbConfigUtil.getDbUrl(DbConfigUtil.PropertyType.REAL_MODE),
+//                DbConfigUtil.getDbPassword(DbConfigUtil.PropertyType.REAL_MODE)
+//        ))
+//        {
+//            Statement statement = connection.createStatement();
+//            statement.executeUpdate("CREATE TABLE ARTEM_TEST IF NOT EXISTS");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 
@@ -41,16 +58,6 @@ public class Main {
             e.printStackTrace();
         }
     }
-
-    private static void startFlyway() {
-        Flyway flyway = Flyway
-                .configure()
-                .dataSource(DbConfigUtil.getDbUrl(), DbConfigUtil.getDbUser(), DbConfigUtil.getDbPassword())
-                .baselineOnMigrate(true)
-                .load();
-        flyway.migrate();
-    }
-
     private static void testCriteriaQuery(Long id) {
         try (Session session = HibernateUtil.getInstance().getSessionFactory().openSession()) {
             HibernateCriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

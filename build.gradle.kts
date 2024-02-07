@@ -19,15 +19,14 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
     implementation("org.hibernate.orm:hibernate-core:6.4.2.Final")
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
-    implementation("org.flywaydb:flyway-core:10.4.1")
+    implementation("org.flywaydb:flyway-core:10.7.1")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-//    implementation("org.apache.logging.log4j:log4j-core:$log4j2Version")
-//    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
-//    implementation("org.apache.logging.log4j:log4j-api:$log4j2Version")
-//    // https://mvnrepository.com/artifact/com.h2database/h2
     testImplementation("com.h2database:h2:2.2.220")
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation("org.postgresql:postgresql:42.5.1")
+
 }
 
 flyway {
