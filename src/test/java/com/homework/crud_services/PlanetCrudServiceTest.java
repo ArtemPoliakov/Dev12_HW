@@ -23,7 +23,7 @@ class PlanetCrudServiceTest {
     @MethodSource(value = "supplyPlanets")
     void testCreateAndRead(Planet planet) throws IllegalfieldException {
         String id = planetCrudService.create(planet);
-        Planet returnFromDbPlanet = planetCrudService.read(id);
+        Planet returnFromDbPlanet = planetCrudService.readWithoutTickets(id);
         Assertions.assertEquals(planet, returnFromDbPlanet);
     }
 
@@ -31,7 +31,7 @@ class PlanetCrudServiceTest {
     @ValueSource(strings = {"PLUTO", "URANUS", "SATURN", "JUPITER"})
     void testDeleteAndRead(String id) {
         planetCrudService.delete(id);
-        Assertions.assertNull(planetCrudService.read(id));
+        Assertions.assertNull(planetCrudService.readWithoutTickets(id));
     }
 
     @ParameterizedTest
@@ -39,7 +39,7 @@ class PlanetCrudServiceTest {
     void testCreateUpdateAndRead(Planet planet) throws IllegalfieldException {
         String id = planetCrudService.create(planet);
         planetCrudService.update(new Planet(id, planet.getName().toUpperCase()));
-        Planet readPlanet = planetCrudService.read(id);
+        Planet readPlanet = planetCrudService.readWithoutTickets(id);
         Assertions.assertEquals(planet.getName().toUpperCase(), readPlanet.getName());
     }
     static Stream<Arguments> supplyPlanets(){

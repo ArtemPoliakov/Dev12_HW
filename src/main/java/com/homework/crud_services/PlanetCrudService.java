@@ -26,7 +26,10 @@ public class PlanetCrudService {
         planetDao.update(planet);
     }
 
-    public Planet read(String id) {
-        return planetDao.read(id);
+    public Planet readWithoutTickets(String id) {
+        return planetDao.readWithoutTickets(id);
+    }
+    public Planet readWithTickets(String id) {
+        return planetDao.readWithTickets(id);
     }
 }

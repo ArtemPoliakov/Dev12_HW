@@ -24,7 +24,7 @@ class ClientCrudServiceTest {
     @MethodSource(value = "supplyClients")
     void testCreateAndRead(Client client) throws ClientForCreateShouldNotContainIdException {
         Long generatedId = clientCrudService.create(client);
-        Client returnFromDbClient = clientCrudService.read(generatedId);
+        Client returnFromDbClient = clientCrudService.readWithoutTickets(generatedId);
         Assertions.assertEquals(client, returnFromDbClient);
     }
 
@@ -32,7 +32,7 @@ class ClientCrudServiceTest {
     @ValueSource(longs = {1, 2, 3, 4, 5})
     void testDeleteAndRead(Long id) {
         clientCrudService.delete(id);
-        Assertions.assertNull(clientCrudService.read(id));
+        Assertions.assertNull(clientCrudService.readWithoutTickets(id));
     }
 
     @ParameterizedTest
@@ -40,7 +40,7 @@ class ClientCrudServiceTest {
     void testCreateUpdateAndRead(Client client) throws ClientForCreateShouldNotContainIdException {
         Long generatedId = clientCrudService.create(client);
         clientCrudService.update(new Client(generatedId, client.getName().toUpperCase()));
-        Client readClient = clientCrudService.read(generatedId);
+        Client readClient = clientCrudService.readWithoutTickets(generatedId);
         Assertions.assertEquals(client.getName().toUpperCase(), readClient.getName());
     }
     static Stream<Arguments> supplyClients(){

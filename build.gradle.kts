@@ -1,6 +1,5 @@
 plugins {
     id("java")
-    id ("org.flywaydb.flyway") version "10.0.0"
 }
 
 group = "com.homework"
@@ -10,7 +9,6 @@ repositories {
     mavenCentral()
 }
 
-val log4j2Version = "2.22.1"
 val lombokVersion = "1.18.30"
 
 dependencies {
@@ -19,22 +17,15 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
     implementation("org.hibernate.orm:hibernate-core:6.4.2.Final")
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
-    implementation("org.flywaydb:flyway-core:10.7.1")
+    implementation("org.flywaydb:flyway-core:10.7.2")
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql
+    runtimeOnly("org.flywaydb:flyway-database-postgresql:10.7.2")
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     testImplementation("com.h2database:h2:2.2.220")
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
-    implementation("org.postgresql:postgresql:42.5.1")
-
-}
-
-flyway {
-    cleanDisabled = false
-    url="jdbc:h2:./data/database"
-    user="Artem"
-    password="very_strong_password"
-    baselineOnMigrate = true
+    implementation("org.postgresql:postgresql:42.7.1")
 }
 
 tasks.test {

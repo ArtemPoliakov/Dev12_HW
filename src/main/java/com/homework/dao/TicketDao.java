@@ -1,56 +1,45 @@
 package com.homework.dao;
 
-import com.homework.hibernate_entities.Client;
-import com.homework.hibernate_entities.Planet;
-import jakarta.persistence.EntityGraph;
+import com.homework.hibernate_entities.Ticket;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class PlanetDao {
+public class TicketDao {
     private final SessionFactory sessionFactory;
-    public PlanetDao(SessionFactory sessionFactory){
+    public TicketDao(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
 
-    public void create(Planet planet){
+    public Long create(Ticket ticket){
         try(Session session = sessionFactory.openSession()){
             Transaction transaction = session.beginTransaction();
-            session.persist(planet);
+            session.persist(ticket);
+            transaction.commit();
+        }
+        return ticket.getId();
+    }
+    public void update(Ticket ticket){
+        try(Session session = sessionFactory.openSession()){
+            Transaction transaction = session.beginTransaction();
+            session.merge(ticket);
             transaction.commit();
         }
     }
-    public void update(Planet planet){
+    public Ticket read(Long id){
+        Ticket result;
         try(Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.merge(planet);
-            transaction.commit();
+            result = session.get(Ticket.class, id);
         }
+        return result;
     }
-    public Planet readWithoutTickets(String id){
-        try(Session session = sessionFactory.openSession()){
-            return session.get(Planet.class, id);
-        }
-    }
-    public Planet readWithTickets(String id){
-        try(Session session = sessionFactory.openSession()){
-            EntityGraph<?> entityGraph = session.getEntityGraph("planet-with-tickets-entity-graph");
-            Map<String, Object> map = new HashMap<>();
-            map.put("jakarta.persistence.loadgraph", entityGraph);
-            return session.find(Planet.class, id, map);
-        }
-    }
-    public void delete(String id){
+    public void delete(Long id){
         try(Session session = sessionFactory.openSession()){
             HibernateCriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaDelete<Planet> criteriaDelete = criteriaBuilder.createCriteriaDelete(Planet.class);
-            Root<Planet> root = criteriaDelete.from(Planet.class);
+            CriteriaDelete<Ticket> criteriaDelete = criteriaBuilder.createCriteriaDelete(Ticket.class);
+            Root<Ticket> root = criteriaDelete.from(Ticket.class);
             criteriaDelete.where(criteriaBuilder.equal(root.get("id"), id));
             Transaction transaction = session.beginTransaction();
             session.createMutationQuery(criteriaDelete).executeUpdate();

@@ -30,7 +30,11 @@ public class ClientCrudService {
         }
     }
 
-    public Client read(Long id) {
-        return clientDao.read(id);
+    public Client readWithoutTickets(Long id) {
+        return clientDao.readWithoutTickets(id);
+    }
+
+    public Client readWithTickets(Long id){
+        return clientDao.readWithTickets(id);
     }
 }

@@ -3,6 +3,7 @@ package com.homework.utils;
 import com.homework.exceptions.ClientForCreateShouldNotContainIdException;
 import com.homework.hibernate_entities.Client;
 import com.homework.hibernate_entities.Planet;
+import com.homework.hibernate_entities.Ticket;
 
 import java.util.Objects;
 
@@ -39,5 +40,24 @@ public final class EntityValidatorUtil {
         if(!Objects.isNull(client.getId())){
             throw new ClientForCreateShouldNotContainIdException();
         }
+    }
+
+    public static boolean checkForTicketCreate(Ticket ticket){
+        return
+                Objects.isNull(ticket.getId())
+                && Objects.isNull(ticket.getCreatedAt())
+                && checkRequiredTicketArgsNotNull(ticket);
+    }
+
+    public static boolean checkRequiredTicketArgsNotNull(Ticket ticket) {
+        return Objects.nonNull(ticket.getClient())
+                && Objects.nonNull(ticket.getToPlanet())
+                && Objects.nonNull(ticket.getFromPlanet());
+    }
+    public static boolean checkIfClientAndPlanetIdsForTicketEntityNotNull(Client client, Planet toPlanet, Planet fromPlanet){
+        return
+                Objects.nonNull(client.getId())
+                && Objects.nonNull(toPlanet.getId())
+                && Objects.nonNull(fromPlanet.getId());
     }
 }

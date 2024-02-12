@@ -1,11 +1,11 @@
 version: '3.8'
 services:
   db:
-    image: postgres
+    image: postgres:16.1
     container_name: artem-bank-postgres
     restart: always
     ports:
-      - "5434:5432"
+      - "5436:5432"
     environment:
       POSTGRES_USER: ArtemPoliakov
       POSTGRES_PASSWORD: strong-password
